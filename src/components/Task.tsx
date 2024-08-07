@@ -1,10 +1,26 @@
-import { View } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import theme from "../../theme";
+
 import { Info } from "./Info";
 import { Empty } from "./Empty";
 import { NewTask } from "./NewTask";
+import { List } from "./List";
+import { useState } from "react";
 
 export function Task() {
+  const [tasks, setTasks] = useState<string[]>([])
+
+  function handleAddTask(newTask: string) {
+    if (tasks.includes(newTask))
+      return Alert.alert('Informe!', 'Já existe uma tarefa com essa descrição!')
+
+    setTasks(prevState => [...prevState, newTask])
+  }
+
+  function handleRemoveTask(taskToRemove: string) {
+    setTasks(prevState => prevState.filter(task => task !== taskToRemove))
+  }
+
   return (
     <View
       style={{
@@ -15,7 +31,7 @@ export function Task() {
       }}
     >
       <View style={{ marginTop: -58, marginBottom: 32 }}>
-        <NewTask />
+        <NewTask addTask={handleAddTask} />
       </View>
 
       <View
@@ -29,17 +45,28 @@ export function Task() {
           texto="Criadas"
           textColor={theme.COLORS.BLUE}
           font={theme.FONT_FAMILY.BOLD}
-          quantidade="1"
+          quantidade={tasks.length.toString()}
         />
         <Info
           texto="Concluídas"
           textColor={theme.COLORS.PURPLE}
           font={theme.FONT_FAMILY.BOLD}
-          quantidade="1"
+          quantidade="0"
         />
       </View>
 
-      <Empty />
+      <ScrollView>
+        <View style={{ marginTop: 24 }}>
+          {
+            tasks.length === 0 ?
+              <Empty /> :
+              tasks.map((item, index) => (
+                <List key={index} description={item} removeTask={handleRemoveTask} />
+              ))
+          }
+        </View>
+      </ScrollView>
+
     </View>
   );
 }

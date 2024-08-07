@@ -1,8 +1,20 @@
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, TextInput, TouchableOpacity, View } from "react-native";
 import theme from "../../theme";
 import IconAdd from '../../assets/IconAdd.png'
+import { useState } from "react";
 
-export function NewTask() {
+type Props = {
+  addTask: (task: string) => void
+}
+
+export function NewTask({ addTask }: Props) {
+  const [task, setTask] = useState('')
+
+  function handleAddNewTask() {
+    addTask(task);
+    setTask('');
+  }
+
   return (
     <View
       style={{
@@ -19,8 +31,10 @@ export function NewTask() {
           fontFamily: theme.FONT_FAMILY.REGULAR,
           height: 48
         }}
+        value={task}
         placeholder="Adicione uma nova tarefa"
         placeholderTextColor={theme.COLORS.GRAY_300}
+        onChangeText={setTask}
       />
 
       <TouchableOpacity
@@ -33,6 +47,7 @@ export function NewTask() {
           alignItems: 'center',
           justifyContent: 'center'
         }}
+        onPress={handleAddNewTask}
       >
         <Image source={IconAdd} />
       </TouchableOpacity>
