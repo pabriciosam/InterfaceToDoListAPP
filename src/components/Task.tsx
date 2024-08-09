@@ -9,6 +9,7 @@ import { useState } from "react";
 
 export function Task() {
   const [tasks, setTasks] = useState<string[]>([])
+  const [countTaskSelected, setCountTaskSelected] = useState(0)
 
   function handleAddTask(newTask: string) {
     if (tasks.includes(newTask))
@@ -17,15 +18,25 @@ export function Task() {
     setTasks(prevState => [...prevState, newTask])
   }
 
-  function handleRemoveTask(taskToRemove: string) {
+  function handleRemoveTask(taskToRemove: string, taskSelected: boolean) {
+    if (taskSelected)
+      setCountTaskSelected(countTaskSelected - 1)
+
     setTasks(prevState => prevState.filter(task => task !== taskToRemove))
+  }
+
+  function handleCheckUncheckTask(taskSelected: boolean) {
+    if (taskSelected)
+      setCountTaskSelected(countTaskSelected + 1)
+    else
+      setCountTaskSelected(countTaskSelected - 1)
   }
 
   return (
     <View
       style={{
-        paddingLeft: 24,
-        paddingRight: 24,
+        paddingLeft: 22,
+        paddingRight: 22,
         marginTop: 29,
         flex: 1
       }}
@@ -51,7 +62,7 @@ export function Task() {
           texto="Concluídas"
           textColor={theme.COLORS.PURPLE}
           font={theme.FONT_FAMILY.BOLD}
-          quantidade="0"
+          quantidade={countTaskSelected.toString()}
         />
       </View>
 
@@ -61,7 +72,7 @@ export function Task() {
             tasks.length === 0 ?
               <Empty /> :
               tasks.map((item, index) => (
-                <List key={index} description={item} removeTask={handleRemoveTask} />
+                <List key={index} description={item} selectTask={handleCheckUncheckTask} removeTask={handleRemoveTask} />
               ))
           }
         </View>

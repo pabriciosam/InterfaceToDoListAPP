@@ -14,7 +14,7 @@ export function Empty() {
         borderTopColor: theme.COLORS.GRAY_300
       }}
     >
-      <Image source={Clipboard} />
+      <Image source={Clipboard} tintColor={theme.COLORS.GRAY_300} />
 
       <View style={{ marginTop: 16 }}>
         <Text

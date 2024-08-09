@@ -10,19 +10,22 @@ type Props = {
 
 export function Info({ texto, textColor, font, quantidade }: Props) {
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ alignItems: 'center', flexDirection: 'row' }}>
       <Text style={{ color: textColor, fontFamily: font }}>
         {texto}
       </Text>
+
       <Text style={{
         color: theme.COLORS.GRAY_100,
         fontFamily: theme.FONT_FAMILY.BOLD,
         backgroundColor: theme.COLORS.GRAY_300,
         marginLeft: 8,
-        width: 22,
-        height: 19,
+        width: 30,
+        height: 30,
         borderRadius: 8,
-        paddingLeft: 7
+        flexDirection: 'row',
+        paddingLeft: 9,
+        paddingTop: 3
       }}>
         {quantidade}
       </Text>

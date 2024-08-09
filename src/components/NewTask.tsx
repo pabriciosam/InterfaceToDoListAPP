@@ -1,4 +1,4 @@
-import { Image, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, TextInput, TouchableOpacity, View } from "react-native";
 import theme from "../../theme";
 import IconAdd from '../../assets/IconAdd.png'
 import { useState } from "react";
@@ -11,6 +11,9 @@ export function NewTask({ addTask }: Props) {
   const [task, setTask] = useState('')
 
   function handleAddNewTask() {
+    if (task.trim() === "" || task === undefined)
+      return Alert.alert('Informe!', 'Informe a descrição da tarefa!')
+
     addTask(task);
     setTask('');
   }
@@ -29,7 +32,7 @@ export function NewTask({ addTask }: Props) {
           padding: 16,
           width: 312,
           fontFamily: theme.FONT_FAMILY.REGULAR,
-          height: 48
+          height: 54
         }}
         value={task}
         placeholder="Adicione uma nova tarefa"
@@ -39,8 +42,8 @@ export function NewTask({ addTask }: Props) {
 
       <TouchableOpacity
         style={{
-          height: 48,
-          width: 48,
+          height: 54,
+          width: 54,
           marginLeft: 4,
           backgroundColor: theme.COLORS.BLUE_DARK,
           borderRadius: 6,

@@ -6,18 +6,21 @@ import { useState } from "react";
 
 type Props = {
   description: string,
-  removeTask: (task: string) => void
+  selectTask: (selected: boolean) => void
+  removeTask: (task: string, taskSelected: boolean) => void
 }
 
-export function List({ description, removeTask }: Props) {
+export function List({ description, selectTask, removeTask }: Props) {
   const [selected, setSelected] = useState(false)
 
   function handleSelected() {
-    setSelected(!selected)
+    setSelected(!selected);
+
+    selectTask(!selected);
   }
 
   function handleRemoveNewTask() {
-    removeTask(description);
+    removeTask(description, selected);
   }
 
   return (
